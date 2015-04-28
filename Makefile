@@ -1,2 +1,2 @@
 all: interpolateDataPoints
-	gcc interpolateDataPoints.c -o interpolateDataPoints
+	gcc -g interpolateDataPoints.c -o interpolateDataPoints
