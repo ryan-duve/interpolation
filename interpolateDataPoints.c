@@ -2,7 +2,7 @@
 //interpolateDataPoints.c
 
 //return interpolated value
-double interpolate(double x, double mxb[][3], unsigned long int nMxb){
+long double interpolate(long double x, long double mxb[][3], unsigned long int nMxb){
   //return 0 if x is not in bounds, assuming points are ordered
   if(x<mxb[0][0] || x>mxb[nMxb-1][0])
     return 0;
@@ -13,8 +13,8 @@ double interpolate(double x, double mxb[][3], unsigned long int nMxb){
     lowerXBoundaryIndex++;
 
   //y=mx+b
-  double m=mxb[lowerXBoundaryIndex][1];
-  double b=mxb[lowerXBoundaryIndex][2];
+  long double m=mxb[lowerXBoundaryIndex][1];
+  long double b=mxb[lowerXBoundaryIndex][2];
 
   return m*x+b;
 }
@@ -22,7 +22,7 @@ double interpolate(double x, double mxb[][3], unsigned long int nMxb){
 int main(){
   //set slope/intercepts for y=mx+b fit for every set of points
   //{<min resistance range>, <slope>, <intercept>}
-  double mxb[][3]={
+  long double mxb[][3]={
     {1.15866529715041E+03,-3.403151e-01,4.393414e+02},
     {1.16746663791400E+03,-3.085394e-01,4.022443e+02},
     {1.17721235255750E+03,-2.784618e-01,3.668366e+02},
@@ -112,14 +112,21 @@ int main(){
     {6.44140000000000E+03,-4.289617e-06,4.638340e-02}
   };
 
-  unsigned long nMxb= (unsigned long) (sizeof(mxb)/sizeof(double))/3;
-  printf("sizeof(mxb) / sizeof(double) = %lu\n",nMxb);
+  unsigned long nMxb= (unsigned long) (sizeof(mxb)/sizeof(long double))/3;
+  printf("sizeof(mxb) / sizeof(long double) = %ld\n",nMxb);
+
+  long double xx;
+  scanf("%Le",&xx);
+  printf("xx=%Le\n",xx);
 
   //get interpolated y value for independent x
-  double x=3200.;
-  double y=interpolate(x, mxb, nMxb);
+  long double x=1217.;
+  long double y=interpolate(x, mxb, nMxb);
 
-  printf("f(%f)=%f\n",x,y);
+  //cast to a double for easier reading
+  double not_double_y = (double) y;
+
+  printf("f(%Le)=%f\n",x,not_double_y);
 
   return 0;
 }
