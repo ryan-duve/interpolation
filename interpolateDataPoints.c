@@ -19,8 +19,8 @@ long double interpolate(long double x, long double mxb[][3], unsigned long int n
   return m*x+b;
 }
 
-int main(){
-  //set slope/intercepts for y=mx+b fit for every set of points
+float avs47(float resistance){
+  //set slope/intercepts for y=mx+b fit for every set of calibrated points
   //{<min resistance range>, <slope>, <intercept>}
   long double mxb[][3]={
     {1.15866529715041E+03,-3.403151e-01,4.393414e+02},
@@ -113,27 +113,18 @@ int main(){
   };
 
   unsigned long nMxb= (unsigned long) (sizeof(mxb)/sizeof(long double))/3;
-  printf("sizeof(mxb) / sizeof(long double) = %ld\n",nMxb);
 
   //get interpolated y value for independent x
-  long double x;
-  long double y;
-  double not_double_y;
+  long double x = (long double) resistance;
+  long double y = interpolate(x, mxb, nMxb);
 
-  while(1){
-    printf("Enter resistance (0 to exit): ");
-    scanf("%Le",&x);
-    if(x<1000.)
-      break;
-    printf("x=%Le\n",x);
+  //cast to a float for database call
+  float temperature = (float) y;
+  return temperature;
+}
 
-    y=interpolate(x, mxb, nMxb);
-
-    //cast to a double for easier reading
-    not_double_y = (double) y;
-
-    printf("f(%Le)=%f\n",x,not_double_y);
-
-  }
+int main(){
+  float r=5400.;
+  printf("T(%f) = %f K\n",r,avs47(r));
   return 0;
 }
