@@ -115,18 +115,25 @@ int main(){
   unsigned long nMxb= (unsigned long) (sizeof(mxb)/sizeof(long double))/3;
   printf("sizeof(mxb) / sizeof(long double) = %ld\n",nMxb);
 
-  long double xx;
-  scanf("%Le",&xx);
-  printf("xx=%Le\n",xx);
-
   //get interpolated y value for independent x
-  long double x=1217.;
-  long double y=interpolate(x, mxb, nMxb);
+  long double x;
+  long double y;
+  double not_double_y;
 
-  //cast to a double for easier reading
-  double not_double_y = (double) y;
+  while(1){
+    printf("Enter resistance (0 to exit): ");
+    scanf("%Le",&x);
+    if(x<1000.)
+      break;
+    printf("x=%Le\n",x);
 
-  printf("f(%Le)=%f\n",x,not_double_y);
+    y=interpolate(x, mxb, nMxb);
 
+    //cast to a double for easier reading
+    not_double_y = (double) y;
+
+    printf("f(%Le)=%f\n",x,not_double_y);
+
+  }
   return 0;
 }
